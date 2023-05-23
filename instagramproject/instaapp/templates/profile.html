@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user.profile.name}}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/jscript.js' %}"></script>
+</head>
+
+<body>
+
+
+    <div class="profile-body">
+        <div class="profile-outer-box">
+
+            <div class="profile-inner-box">
+
+                <div class="profile-username">
+                    <h2>{{user.username}}</h2>
+                </div>
+
+                <div class="container">
+
+                    <div class="profile-bio-section">
+
+                        <div class="profile-details">
+
+                            <div class="profile-image">
+                                {% if not profile.profile_picture %}
+
+                                <img src="{% static 'img/avtar.jpg' %}" alt="">
+                                {% else %}
+                                <img src="{{profile.profile_picture.url}}" alt="">
+                                {% endif %}
+                            </div>
+
+                            <div class="posts-count">
+                                <h3>{{posts_num}}</h3>
+                                <p>Posts</p>
+                            </div>
+
+                            <div class="followers-count">
+                                <h3 class="followers_count-number">{{followers_count}}</h3>
+                                <p>Followers</p>
+                            </div>
+
+                            <div class="following-count">
+                                <h3>{{followings_count}}</h3>
+                                <p>Following</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="profile-bio">
+                        <p>{{ profile.name }} </p>
+
+                        <p>{{profile.bio}}</p>
+
+
+                    </div>
+                </div>
+                {% ifnotequal profile.user_id request.user %}
+
+                <div class="followandmsg">
+                    {% if not follow_status %}
+                    <!-- <a href="{% url 'follow' username=profile.user_id %}" class="follow-button">Follow</a> -->
+                    <button class="follow-button" data-profile-username="{{ profile.user_id.username }}">Follow</button>
+                    {% else %}
+                    <!-- <a href="{% url 'follow' username=profile.user_id %}" class="follow-button">Unfollow</a> -->
+                    <button class="follow-button"
+                        data-profile-username="{{ profile.user_id.username }}">Unfollow</button>
+                    {% endif %}
+
+                    <a href="" class="massage-button">Message</a>
+                </div>
+
+                {% else %}
+
+                <div class="followandmsg">
+
+                    <a href="{% url 'editprofile' %}" class="edit-button">Edit Profile</a>
+
+                    <a href="{% url 'Logout' %}" class="logout-button-profile">Logout</a>
+
+                </div>
+
+                {% endifnotequal %}
+                <div class="post-title">
+                    <h3 class="post-title-heading">POSTS</h3>
+                </div>
+                <div class="image-gallery">
+
+
+                    {% for post in posts%}
+                    <div class="gallery-image">
+
+                        <img src={{post.file.url}} alt="Snow" style="width:100%">
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

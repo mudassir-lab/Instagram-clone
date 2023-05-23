@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+
+</head>
+
+<body>
+
+    <div class="search-body">
+        <div class="search-outer-box">
+
+            <div class="search-inner-box">
+
+                <form class="search-form" action="" method="GET" style="display: flex;">
+                    {% csrf_token %}
+                    <input class="search-bar" type="text" placeholder="search" name="username">
+                    <button class="search-button" type="submit">Search</button>
+                </form>
+
+
+
+                {% if not profiles %}
+                <p class="no-result"> No result found for {{username}}</p>
+                {% else %}
+
+
+                {% for profile in profiles %}
+                <a href="/profile/{{profile.user_id}}" class="profile-box" style="display: flex;">
+
+                    {% if not profile.profile_picture %}
+                    <img src="{% static 'img/avtar.jpg' %}" alt="">
+                    {% else %}
+                    <img src="{{profile.profile_picture.url}}" alt="">
+                    {% endif %}
+
+                    <div class="profile-text">
+                        <p>{{profile.user_id}}</p>
+                        <p>{{profile.name}}</p>
+                    </div>
+                </a>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+
+        {% include 'footer.html' %}
+    </div>
+</body>
+
+</html>

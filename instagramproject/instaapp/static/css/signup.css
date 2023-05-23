@@ -1,0 +1,61 @@
+/* *{
+    border: 1px solid red;
+} */
+
+body {
+    margin: 0;
+}
+
+.main-container {
+    height: 500px;
+    /* width: 300px; */
+    display: flex;
+    flex-direction: column;
+    /* margin-left: 50px; */
+    gap: 10px;
+    /* border: 1px solid grey; */
+    align-content: center;
+    align-items: center;
+    /* margin: 5%; */
+    /* padding: 5%; */
+    width: 100%;
+}
+
+.main-container h2,
+.main-container p {
+    text-align: center;
+    max-width: 70%;
+}
+
+.form-item {
+    margin: 20px 0;
+    width: 100%;
+    /* display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin: 10px 10px; */
+
+}
+
+
+input {
+    width: 100%;
+    height: 30px;
+}
+
+.submit-button {
+    width: 80%;
+    margin-left: 12%;
+    color: white;
+    background-color: skyblue;
+    border: none;
+    border-radius: 10px;
+    height: 30px;
+
+}
+
+.profile_pic {
+    /* display: none; */
+    display: flex;
+    /* background-color: skyblue; */
+}

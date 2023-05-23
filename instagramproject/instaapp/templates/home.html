@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load time_since %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="home-body">
+        <div class="home-outer-box">
+            <img src="" alt="" class="fullscreen" id="fullscreenimg">
+            <div id="main">
+                <header class="home-header">
+                    <div class="logo">
+                        <a href="">
+                            <img src="{% static 'img/instagram-logo.webp' %}" alt="">
+                        </a>
+                    </div>
+
+
+                    <div class="side-logos">
+                        <a href="{% url 'uploadstory' %}">
+                            <img src="{% static 'img/stories-icon.webp' %}" alt="">
+
+                        </a>
+
+                        <a href="">
+                            <svg aria-label="Messenger" class="_ab6-" color="#262626" fill="#262626" height="24"
+                                role="img" viewBox="0 0 24 24" width="24">
+                                <path
+                                    d="M12.003 2.001a9.705 9.705 0 1 1 0 19.4 10.876 10.876 0 0 1-2.895-.384.798.798 0 0 0-.533.04l-1.984.876a.801.801 0 0 1-1.123-.708l-.054-1.78a.806.806 0 0 0-.27-.569 9.49 9.49 0 0 1-3.14-7.175 9.65 9.65 0 0 1 10-9.7Z"
+                                    fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.739">
+                                </path>
+                                <path
+                                    d="M17.79 10.132a.659.659 0 0 0-.962-.873l-2.556 2.05a.63.63 0 0 1-.758.002L11.06 9.47a1.576 1.576 0 0 0-2.277.42l-2.567 3.98a.659.659 0 0 0 .961.875l2.556-2.049a.63.63 0 0 1 .759-.002l2.452 1.84a1.576 1.576 0 0 0 2.278-.42Z"
+                                    fill-rule="evenodd"></path>
+                            </svg>
+                        </a>
+
+                        <a href="{% url 'Logout' %}" class="logout-button">
+                            <svg fill="#000000" hversion="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384.971 384.971"
+                                xml:space="preserve" width="30" height="22">
+                                <g id="Sign_Out">
+                                    <path
+                                        d="M180.455,360.91H24.061V24.061h156.394c6.641,0,12.03-5.39,12.03-12.03s-5.39-12.03-12.03-12.03H12.03    C5.39,0.001,0,5.39,0,12.031V372.94c0,6.641,5.39,12.03,12.03,12.03h168.424c6.641,0,12.03-5.39,12.03-12.03    C192.485,366.299,187.095,360.91,180.455,360.91z" />
+                                    <path
+                                        d="M381.481,184.088l-83.009-84.2c-4.704-4.752-12.319-4.74-17.011,0c-4.704,4.74-4.704,12.439,0,17.179l62.558,63.46H96.279    c-6.641,0-12.03,5.438-12.03,12.151c0,6.713,5.39,12.151,12.03,12.151h247.74l-62.558,63.46c-4.704,4.752-4.704,12.439,0,17.179    c4.704,4.752,12.319,4.752,17.011,0l82.997-84.2C386.113,196.588,386.161,188.756,381.481,184.088z" />
+                                </g>
+
+                            </svg>
+                        </a>
+
+
+                    </div>
+
+                </header>
+
+                <div class="post_story">
+                    <div class="stories">
+                        <!-- USER STORIES STARTS HERE -->
+
+                        {% for story in stories %}
+
+                        <div class="story" data-story-id="{{story.id}}" data-story-src="{{story.story.url}}">
+                            <img src="{{story.story.url}}" alt="" class="story_image" id="story-{{story.id}}" />
+                            <p>{{story.profile.user_id}}</p>
+                        </div>
+
+                        {% endfor %}
+                        <!-- USER STORIES ENDS HERE -->
+                    </div>
+
+                    <div class="post">
+                        {% for post in posts %}
+
+                        <div class="post-data">
+                            <div class="post-header">
+                                <a href="{% url 'profile' username=post.post_id.user_id %}">
+                                    <img src="{{post.post_id.profile.profile_picture.url}}" alt="">
+                                </a>
+
+                                <div class="post-user">
+                                    <a href="{% url 'profile' username=post.post_id.user_id %}">
+                                        <h4>{{post.post_id.profile.user_id.username}}</h4>
+                                    </a>
+
+                                    <p>{{post.post_id.location}}</p>
+                                </div>
+                            </div>
+                            <img src="{{post.file.url}}" alt="" class="post-image">
+
+                            <div class="like-and-comment">
+
+                                {% if request.user in post.post_id.liked.all %}
+                                <button class="like-button" id="like-button-{{ post.post_id.id }}"
+                                    data-post-id="{{ post.post_id.id }}">
+                                    <i class="fas fa-heart " style="color: red;"></i>
+                                </button>
+                                {% else %}
+                                <button class="like-button" id="like-button-{{ post.post_id.id }}"
+                                    data-post-id="{{ post.post_id.id }}">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                {% endif %}
+
+                                <a href="{% url 'comments' id=post.post_id.id %}" class="comment-button">
+                                    <svg aria-label="Comment" class="_ab6-" color="#8e8e8e" fill="#8e8e8e" height="24"
+                                        role="img" viewBox="0 0 24 24" width="24">
+                                        <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none"
+                                            color="black" stroke="currentColor" stroke-linejoin="round"
+                                            stroke-width="2"></path>
+                                    </svg>
+                                </a>
+
+                            </div>
+                            <p class="likes-count" id="likes-count-{{post.post_id.id}}">{{post.post_id.likes}} likes</p>
+
+                            <div class="caption">
+                                <span class="caption-user">{{post.post_id.profile.user_id.username}}</span>
+                                <span>{{post.post_id.caption}}</span>
+                            </div>
+                            <a href="{% url 'comments' id=post.post_id.id %}" class="view-comments">View all
+                                {{post.post_id.comments.all.count}} comments </a>
+                            <div class="time-ago">{{ post.post_id.posted_on|time_since }}</div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            {% include 'footer.html' %}
+        </div>
+</body>
+<script src="{% static 'js/jscript.js' %}"></script>
+
+</html>

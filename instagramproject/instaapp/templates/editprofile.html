@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+
+</head>
+
+<body>
+
+    <div class="edit-outer-box">
+
+        <div class="edit-inner-box">
+
+            <div class="add-post-title edit-profile-title">
+                <h3>Edit Profile</h3>
+            </div>
+
+            <form action="" method="POST" enctype="multipart/form-data" class="edit-form">
+                {% csrf_token %}
+                <div class="name edit-form-item">
+                    <label for="full-name">Name</label>
+                    <input type="text" id="full-name" placeholder="Enter Your Name" name="name">
+                </div>
+
+                <div class="bio edit-form-item">
+                    <label for='bio'>Bio</label>
+                    <input type="text" id="bio" placeholder="Enter Bio" name="bio">
+                </div>
+
+                <div class="profile_pic edit-form-item">
+                    <label for="Inputpic">Profile Picture</label>
+                    <input type="file" name="profilepic" id="Inputpic">
+                </div>
+                <button type="submit" class="submit-button form-item">Update Profile</button>
+            </form>
+
+        </div>
+
+    </div>
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

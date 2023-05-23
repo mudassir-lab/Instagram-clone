@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment</title>
+    {% load time_since %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/jscript.js' %}"></script>
+</head>
+
+<body>
+    <div class="comment-outer-box">
+
+        <div class="comment-inner-box">
+
+
+
+            <header class="comment-header">
+                <a href="{% url 'home' %}" class="back-button">
+                    <svg aria-label="Back" class="_ab6-" color="#262626" fill="#262626" height="24" role="img"
+                        rotate="90" viewBox="0 0 24 24" width="24">
+                        <path
+                            d="M21 17.502a.997.997 0 0 1-.707-.293L12 8.913l-8.293 8.296a1 1 0 1 1-1.414-1.414l9-9.004a1.03 1.03 0 0 1 1.414 0l9 9.004A1 1 0 0 1 21 17.502Z">
+                        </path>
+                    </svg>
+                </a>
+                <h4>Comments</h4>
+            </header>
+
+            <div class="post-uploader comment-div">
+                <img class="img-30x30" src="{{ post.profile.profile_picture.url}}" alt="">
+                <div class="user-and-caption">
+                    <div class="username user-detail">
+                        <span class="username-text"> {{ post.user_id.username}}</span>
+                        <span class="comment-time-ago"> {{ post.posted_on|time_since }}</span>
+                    </div>
+                    <p>{{post.caption}}</p>
+                </div>
+            </div>
+
+            <div class="comment-box">
+
+                {% for comment in post.comments.all %}
+                {% if not comment.parent %}
+                <div class="comment comment-div">
+                    <a href="{% url 'profile' username=comment.user.username %}">
+                        <img class="img-30x30" src="{{comment.user.profile.profile_picture.url}}" alt=""
+                            class="post-image">
+                    </a>
+                    <div class="user-and-comment" data-id={{comment.id}} data-user="{{comment.user.username }}">
+                        <div class="commenter user-detail">
+                            <span class="username-text"> {{ comment.user.username }}</span>
+                            <span class="comment-time-ago"> {{ comment.created_at|time_since }}</span>
+                        </div>
+                        <p>{{comment.text}}</p>
+                        <span class="reply">Reply</span>
+                    </div>
+                </div>
+                {% if comment.child %}
+                {% for child in comment.child.all%}
+
+                <div class="child-comment comment-div">
+                    <a href="{% url 'profile' username=comment.user.username %}">
+                        <img class="img-30x30" src="{{child.user.profile.profile_picture.url}}" alt=""
+                            class="post-image">
+                    </a>
+                    <div class="user-and-comment" data-id={{comment.id}} data-user="{{comment.user.username }}">
+                        <div class="commenter user-detail">
+                            <span class="username-text"> {{ child.user.username }}</span>
+                            <span class="comment-time-ago"> {{ child.created_at|time_since }}</span>
+                        </div>
+                        <p>{{child.text}}</p>
+                        <span class="reply">Reply</span>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <form action="" method="POST" class="comment-form">
+                {% csrf_token %}
+                <img class="img-30x30" src="{{request.user.profile.profile_picture.url}}" alt="">
+                <input type="text" placeholder="Add a comment" name="comment">
+                <input type="hidden" name="parent">
+                <button type="submit">Post</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
