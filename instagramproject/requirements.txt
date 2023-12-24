@@ -1,6 +1,6 @@
-asgiref==3.7.2
+asgiref==3.6.0
 autopep8==2.0.1
-dj-database-url==2.1.0
+dj-database-url==1.2.0
 Django==2.2
 gunicorn==21.2.0
 packaging==23.2
